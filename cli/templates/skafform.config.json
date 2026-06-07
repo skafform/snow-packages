@@ -1,0 +1,22 @@
+{
+  "theme": "theme-light",
+  "registry": "https://raw.githubusercontent.com/skafform/skafform-registry/main",
+  "customize": {
+    "navbar": { "logo": "Mon Site" },
+    "hero": {
+      "title": "Bienvenue",
+      "subtitle": "Propulsé par Skafform"
+    }
+  },
+  "nav_locations": {
+    "primary":   "Navigation principale",
+    "user-menu": "Menu utilisateur connecté",
+    "footer":    "Pied de page"
+  },
+  "nav": {
+    "primary": [
+      { "label": "Accueil", "href": "/",      "visibility": "public", "order": 1 },
+      { "label": "About",   "href": "/about", "visibility": "public", "order": 2 }
+    ]
+  }
+}

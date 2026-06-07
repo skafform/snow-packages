@@ -1,0 +1,52 @@
+/* Skafform — contrat universel. Shippe avec le plugin. */
+:root {
+  /* Couleurs */
+  --skafform-primary:         #111111;
+  --skafform-primary-fg:      #ffffff;
+  --skafform-primary-hover:   #333333;
+  --skafform-background:      #ffffff;
+  --skafform-foreground:      #111111;
+  --skafform-muted:           #f5f5f5;
+  --skafform-muted-fg:        #666666;
+  --skafform-border:          #eeeeee;
+  --skafform-error:           #dc2626;
+
+  /* Typographie */
+  --skafform-font:            system-ui, sans-serif;
+  --skafform-font-heading:    system-ui, sans-serif;
+  --skafform-font-body:       system-ui, sans-serif;
+  --skafform-font-size-xs:    0.75rem;
+  --skafform-font-size-sm:    0.875rem;
+  --skafform-font-size-base:  1rem;
+  --skafform-font-size-lg:    1.125rem;
+  --skafform-font-size-xl:    1.25rem;
+  --skafform-font-size-2xl:   1.5rem;
+
+  /* Espacements */
+  --skafform-spacing-xs:      4px;
+  --skafform-spacing-sm:      8px;
+  --skafform-spacing-md:      16px;
+  --skafform-spacing-lg:      24px;
+  --skafform-spacing-xl:      32px;
+
+  /* Bordures */
+  --skafform-radius:          6px;
+  --skafform-radius-sm:       4px;
+  --skafform-radius-md:       6px;
+  --skafform-radius-lg:       12px;
+
+  /* Ombres */
+  --skafform-shadow-sm:       0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --skafform-shadow-md:       0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --skafform-shadow-lg:       0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Mise en page */
+  --skafform-navbar-height:   60px;
+}
+
+html, body {
+  background: var(--skafform-background);
+  color: var(--skafform-foreground);
+  font-family: var(--skafform-font);
+  margin: 0;
+}

@@ -1,0 +1,24 @@
+/* theme-light — override du contrat */
+:root {
+  /* Couleurs */
+  --skafform-primary:         #0369a1;
+  --skafform-primary-fg:      #ffffff;
+  --skafform-primary-hover:   #0284c7;
+  --skafform-background:      #f8fafc;
+  --skafform-foreground:      #0f172a;
+  --skafform-muted:           #e2e8f0;
+  --skafform-muted-fg:        #475569;
+  --skafform-border:          #cbd5e1;
+  --skafform-error:           #dc2626;
+
+  /* Typographie */
+  --skafform-font:            'Inter', system-ui, sans-serif;
+  --skafform-font-heading:    'Inter', system-ui, sans-serif;
+  --skafform-font-body:       'Inter', system-ui, sans-serif;
+
+  /* Bordures */
+  --skafform-radius:          8px;
+  --skafform-radius-sm:       4px;
+  --skafform-radius-md:       8px;
+  --skafform-radius-lg:       14px;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@skafform/vite-plugin",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./types.d.ts",
+  "files": [
+    "dist",
+    "base.css",
+    "types.d.ts"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "peerDependencies": {
+    "vite": ">=5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^6.0.0"
+  }
+}

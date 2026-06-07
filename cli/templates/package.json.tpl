@@ -1,0 +1,27 @@
+{
+  "name": "{{name}}",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "react-router dev",
+    "build": "react-router build",
+    "start": "react-router-serve ./build/server/index.js"
+  },
+  "dependencies": {
+    "@react-router/node": "7.16.0",
+    "@react-router/serve": "7.16.0",
+    "isbot": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "7.16.0"
+  },
+  "devDependencies": {
+    "@react-router/dev": "7.16.0",
+    "@skafform/vite-plugin": "*",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^8.0.0"
+  }
+}
