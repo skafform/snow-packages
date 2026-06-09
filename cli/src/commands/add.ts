@@ -1,9 +1,22 @@
-import { existsSync, mkdirSync } from "node:fs"
-import { resolve } from "node:path"
+import { existsSync, mkdirSync, readdirSync, statSync, copyFileSync } from "node:fs"
+import { resolve, join } from "node:path"
 import { readBrickMeta, readBrickPackageJson, prefixPaths } from "../lib/registry.js"
 import { readBricksJson, writeBricksJson } from "../lib/bricks-json.js"
 import { fetchBrick, resolveRegistryPath } from "../lib/fetch-brick.js"
 import { mergePackageDeps, addTsconfigPaths } from "../lib/project.js"
+
+function copyDir(src: string, dest: string): void {
+  mkdirSync(dest, { recursive: true })
+  for (const entry of readdirSync(src)) {
+    const srcPath = join(src, entry)
+    const destPath = join(dest, entry)
+    if (statSync(srcPath).isDirectory()) {
+      copyDir(srcPath, destPath)
+    } else {
+      copyFileSync(srcPath, destPath)
+    }
+  }
+}
 
 const REQUIRES_MAP: Record<string, string> = {
   core: "@skafform/core",
@@ -75,6 +88,16 @@ export async function add(brickName: string, cwd: string): Promise<void> {
     }
     if (pkg.exports) {
       addTsconfigPaths(cwd, brickName, pkg.exports)
+    }
+  }
+
+  // Copier les dossiers scaffold déclarés dans skafform.scaffold
+  for (const dir of raw.scaffold ?? []) {
+    const srcDir = resolve(brickDir, dir)
+    const destDir = resolve(cwd, dir)
+    if (existsSync(srcDir) && !existsSync(destDir)) {
+      copyDir(srcDir, destDir)
+      console.log(`  → ${dir}/ scaffolded to project root`)
     }
   }
 

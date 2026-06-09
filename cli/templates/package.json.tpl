@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@react-router/dev": "7.16.0",
-    "@skafform/vite-plugin": "*",
+    "@skafform/vite-plugin": "^0.1.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

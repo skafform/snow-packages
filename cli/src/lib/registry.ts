@@ -9,6 +9,7 @@ export interface BrickMeta {
   nav?: NavItem[]
   layout?: string
   routes?: RouteItem[]
+  scaffold?: string[]
 }
 
 interface BrickPackageJson {

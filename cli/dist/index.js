@@ -53,14 +53,11 @@ Creating Skafform project "${name}"...
   console.log("\u2713 theme-light installed\n");
   console.log("Next steps:\n");
   console.log(`  cd ${name}`);
-  console.log(`  yalc add @skafform/vite-plugin`);
   console.log(`  npm install`);
   console.log(`  npm run dev
 `);
-  console.log("Note: publish local packages to yalc first if not done yet:");
-  console.log(`  cd packages/vite-plugin && yalc publish
-`);
-  console.log("To add auth + admin:");
+  console.log("To add bricks:");
+  console.log(`  skafform add @skafform/lite-docs`);
   console.log(`  skafform add @skafform/core`);
   console.log(`  skafform add @skafform/auth-better-auth`);
   console.log(`  skafform add @skafform/admin
@@ -96,8 +93,8 @@ function init(cwd) {
 }
 
 // src/commands/add.ts
-import { existsSync as existsSync7, mkdirSync as mkdirSync3 } from "fs";
-import { resolve as resolve7 } from "path";
+import { existsSync as existsSync7, mkdirSync as mkdirSync3, readdirSync as readdirSync2, statSync as statSync2, copyFileSync } from "fs";
+import { resolve as resolve7, join } from "path";
 
 // src/lib/registry.ts
 import { readFileSync as readFileSync2, existsSync as existsSync3 } from "fs";
@@ -246,6 +243,18 @@ function addTsconfigPaths(cwd, brickName, exports) {
 }
 
 // src/commands/add.ts
+function copyDir2(src, dest) {
+  mkdirSync3(dest, { recursive: true });
+  for (const entry of readdirSync2(src)) {
+    const srcPath = join(src, entry);
+    const destPath = join(dest, entry);
+    if (statSync2(srcPath).isDirectory()) {
+      copyDir2(srcPath, destPath);
+    } else {
+      copyFileSync(srcPath, destPath);
+    }
+  }
+}
 var REQUIRES_MAP = {
   core: "@skafform/core",
   auth: "@skafform/auth-better-auth"
@@ -301,6 +310,14 @@ async function add(brickName, cwd) {
     }
     if (pkg.exports) {
       addTsconfigPaths(cwd, brickName, pkg.exports);
+    }
+  }
+  for (const dir of raw.scaffold ?? []) {
+    const srcDir = resolve7(brickDir, dir);
+    const destDir = resolve7(cwd, dir);
+    if (existsSync7(srcDir) && !existsSync7(destDir)) {
+      copyDir2(srcDir, destDir);
+      console.log(`  \u2192 ${dir}/ scaffolded to project root`);
     }
   }
   console.log(`\u2713 ${meta.name} registered in skafform-bricks.json`);
