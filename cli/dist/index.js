@@ -256,10 +256,11 @@ function copyDir2(src, dest) {
   }
 }
 var REQUIRES_MAP = {
-  core: "@skafform/core",
-  auth: "@skafform/auth-better-auth"
+  core: "@skafform/core"
 };
-async function add(brickName, cwd) {
+async function add(brickName, cwd, _installing = /* @__PURE__ */ new Set()) {
+  if (_installing.has(brickName)) return;
+  _installing.add(brickName);
   const brickDir = resolve7(cwd, "bricks", brickName);
   if (!existsSync7(brickDir)) {
     console.log(`Fetching ${brickName} from registry...`);
@@ -280,17 +281,17 @@ async function add(brickName, cwd) {
   }
   const meta = prefixPaths(brickName, raw);
   const registry = readBricksJson(cwd);
-  const missing = [];
   for (const req of raw.requires ?? []) {
     const dep = REQUIRES_MAP[req] ?? req;
-    if (!registry.bricks[dep]) missing.push(dep);
-  }
-  if (missing.length > 0) {
-    console.error(`\u2717 "${brickName}" requires the following bricks to be installed first:`);
-    for (const dep of missing) {
-      console.error(`    skafform add ${dep}`);
+    if (!registry.bricks[dep]) {
+      console.log(`  \u2192 installing required brick: ${dep}`);
+      await add(dep, cwd, _installing);
     }
-    process.exit(1);
+  }
+  for (const adapter of raw.requiresAdapters ?? []) {
+    if (!registry.adapters[adapter]) {
+      console.warn(`  \u26A0 "${brickName}" requires an "${adapter}" adapter \u2014 install a brick that provides it (e.g. skafform add @skafform/auth-better-auth)`);
+    }
   }
   if (meta.adapter) {
     registry.adapters.auth = meta.adapter;

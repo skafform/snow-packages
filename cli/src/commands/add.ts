@@ -20,10 +20,11 @@ function copyDir(src: string, dest: string): void {
 
 const REQUIRES_MAP: Record<string, string> = {
   core: "@skafform/core",
-  auth: "@skafform/auth-better-auth",
 }
 
-export async function add(brickName: string, cwd: string): Promise<void> {
+export async function add(brickName: string, cwd: string, _installing = new Set<string>()): Promise<void> {
+  if (_installing.has(brickName)) return
+  _installing.add(brickName)
   const brickDir = resolve(cwd, "bricks", brickName)
 
   // Si le brick n'est pas déjà présent, on le télécharge depuis le registre
@@ -49,19 +50,20 @@ export async function add(brickName: string, cwd: string): Promise<void> {
   const meta = prefixPaths(brickName, raw)
   const registry = readBricksJson(cwd)
 
-  // Vérifier les requires
-  const missing: string[] = []
+  // Auto-installer les requires manquants
   for (const req of raw.requires ?? []) {
     const dep = REQUIRES_MAP[req] ?? req
-    if (!registry.bricks[dep]) missing.push(dep)
+    if (!registry.bricks[dep]) {
+      console.log(`  → installing required brick: ${dep}`)
+      await add(dep, cwd, _installing)
+    }
   }
 
-  if (missing.length > 0) {
-    console.error(`✗ "${brickName}" requires the following bricks to be installed first:`)
-    for (const dep of missing) {
-      console.error(`    skafform add ${dep}`)
+  // Avertir si un adaptateur requis n'est pas configuré
+  for (const adapter of raw.requiresAdapters ?? []) {
+    if (!registry.adapters[adapter]) {
+      console.warn(`  ⚠ "${brickName}" requires an "${adapter}" adapter — install a brick that provides it (e.g. skafform add @skafform/auth-better-auth)`)
     }
-    process.exit(1)
   }
 
   // Enregistrer l'adapter

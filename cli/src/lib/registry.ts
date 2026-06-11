@@ -5,6 +5,7 @@ import type { NavItem, RouteItem } from "./bricks-json.js"
 export interface BrickMeta {
   name: string
   requires?: string[]
+  requiresAdapters?: string[]
   adapter?: string
   nav?: NavItem[]
   layout?: string
